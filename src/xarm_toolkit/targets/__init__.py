@@ -1,6 +1,5 @@
 
-from .target_source import TargetSource
-from .target_source import TargetSelectionCancelled
+from .target_source import TargetSource, TargetSelectionCancelled
 from .mock_click import MockClickTarget
 from .ari_tracker import ARIPersonTracker
 
