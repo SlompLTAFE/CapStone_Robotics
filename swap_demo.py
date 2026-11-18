@@ -6,20 +6,28 @@ from xarm_toolkit import MockClickTarget
 from xarm_toolkit import ARIPersonTracker
 
 
+
 def run(source):
     """Run the arm using any object that implements TargetSource."""
-    arm = ArmController()
+    arm = None
 
     try:
         while True:
             x, y = source.get_target()
+
+            # Connect only after receiving a valid target.
+            if arm is None:
+                arm = ArmController()
+
             arm.point_at(x, y)
 
     except TargetSelectionCancelled:
         print("Target selection ended.")
 
     finally:
-        arm.close()
+        if arm is not None:
+            arm.close()
+
 
 
 def main():

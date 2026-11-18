@@ -3,34 +3,33 @@
 from xarm_toolkit import (
     ArmController,
     MockClickTarget,
-    TargetSelectionCancelled
+    TargetSelectionCancelled,
 )
 
 
 def main():
     """Run the mouse-controlled arm demonstration."""
 
+    targets = MockClickTarget()
+
     try:
         with ArmController() as arm:
-            targets = MockClickTarget()
+            while True:
+                x, y = targets.get_target()
 
-            try:
-                while True:
-                    x, y = targets.get_target()
+                print(f"Target selected: ({x}, {y})")
 
-                    print(f"Target selected: ({x}, {y})")
+                arm.point_at(x, y)
 
-                    arm.point_at(x, y)
-            finally:
-                    targets.close()
-
-            except TargetSelectionCancelled:
-                print("Target selection ended.")
+    except TargetSelectionCancelled:
+        print("Target selection ended.")
 
     except RuntimeError as error:
         print(f"Arm connection failed: {error}")
 
+    finally:
+        targets.close()
+
 
 if __name__ == "__main__":
     main()
-
