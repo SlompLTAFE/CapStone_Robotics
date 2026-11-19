@@ -1,0 +1,8 @@
+xarm
+hidapi
+
+[dev]
+pytest>=8.0
+
+[mock]
+pygame>=2.5

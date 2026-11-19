@@ -54,22 +54,22 @@ class MockClickTarget(TargetSource):
         pygame.display.flip()
 
         while True:
-            for event in pygame.event.get():
+            event = pygame.event.wait()
 
-                if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT:
+                self.close()
+                raise TargetSelectionCancelled("Window closed.")
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
                     self.close()
-                    raise TargetSelectionCancelled("Window closed.")
+                    raise TargetSelectionCancelled(
+                        "Selection cancelled."
+                    )
 
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        self.close()
-                        raise TargetSelectionCancelled(
-                            "Selection cancelled."
-                        )
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    x, y = event.pos
-                    return float(x), float(y)
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                x, y = event.pos
+                return float(x), float(y)
 
     def close(self):
         """Close the Pygame window safely."""

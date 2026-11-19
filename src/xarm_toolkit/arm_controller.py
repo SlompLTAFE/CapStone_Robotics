@@ -110,11 +110,12 @@ class ArmController:
         """Release the torque of selected servos."""
 
         self._ensure_open()
+        servo_ids = list(servo_ids)
 
         for servo_id in servo_ids:
             self._validate_servo_id(servo_id)
 
-        self._controller.servoOff(list(servo_ids))
+        self._controller.servoOff(servo_ids)
 
     def _calculate_angles(self, x, y):
         """Map screen coordinates to initial pan and tilt positions."""
